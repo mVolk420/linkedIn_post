@@ -4,11 +4,19 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import generate_openai_post
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # 🔐 LinkedIn Zugangsdaten
-EMAIL = "mail"
-PASSWORD = "password"
-POST_TEXT = "Hi!"
+EMAIL = os.getenv("EMAIL")
+PASSWORD = os.getenv("PASSWORD")
+# Beispielinput – hier später dynamisch ersetzen
+news_title = "OpenAI bringt GPT-4 Turbo mit Webzugang und DALL·E"
+news_summary = "Die neue Version von ChatGPT vereint Surfen im Internet, Dateiverarbeitung und Bildgenerierung – ein gewaltiger Funktionssprung."
+
+POST_TEXT = generate_openai_post.create_linkedin_post(news_title, news_summary)
 
 # 🌐 Starte Safari WebDriver
 driver = webdriver.Safari()
