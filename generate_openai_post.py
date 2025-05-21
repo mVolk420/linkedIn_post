@@ -8,21 +8,20 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=api_key)
 
-def create_linkedin_post(news_title: str, news_summary: str) -> str:
+def create_linkedin_post(news_list) -> str:
     prompt = f"""
-    Erstelle einen hochwertigen LinkedIn-Beitrag auf Deutsch zur folgenden KI-News:
+    Erstelle einen hochwertigen LinkedIn-Beitrag auf Deutsch, Hier sind aktuelle Nachrichtenartikel-Titel zum Thema IT:
 
-    Titel: {news_title}
-    Zusammenfassung: {news_summary}
+    Titel: {news_list}
 
-    Der Beitrag richtet sich an ein deutschsprachiges, beruflich interessiertes LinkedIn-Publikum.
+    Suche dir den deiner Meinung nach den wichtigsten raus und erstelle ein Beitrag. Der Beitrag richtet sich an ein deutschsprachiges, beruflich interessiertes LinkedIn-Publikum Dabei sollen News zu Aktienbewertungen ignoriert werden.
     Er soll:
 
     - mit einem aufmerksamkeitsstarken Satz beginnen
     - den Kern der Nachricht prägnant und anregend zusammenfassen
     - mit einer Frage oder Meinung abschließen
     - sachlich-professionell, aber persönlich geschrieben sein
-    - maximal 4 Absätze lang sein
+    - 4 - 8 Absätze lang sein
     - auf Emojis und Hashtags verzichten (außer sie sind sinnvoll und dezent)
 
     Antworte nur mit dem fertigen Beitragstext, ohne Vorbemerkung oder Erklärung.
@@ -40,4 +39,5 @@ def create_linkedin_post(news_title: str, news_summary: str) -> str:
 
 
     return response.choices[0].message.content
+
 

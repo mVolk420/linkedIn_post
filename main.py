@@ -7,16 +7,16 @@ import time
 import generate_openai_post
 from dotenv import load_dotenv
 import os
+import news_fetcher
 
 load_dotenv()
 # 🔐 LinkedIn Zugangsdaten
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 # Beispielinput – hier später dynamisch ersetzen
-news_title = "OpenAI bringt GPT-4 Turbo mit Webzugang und DALL·E"
-news_summary = "Die neue Version von ChatGPT vereint Surfen im Internet, Dateiverarbeitung und Bildgenerierung – ein gewaltiger Funktionssprung."
+news = news_fetcher.fetch_news()
 
-POST_TEXT = generate_openai_post.create_linkedin_post(news_title, news_summary)
+POST_TEXT = generate_openai_post.create_linkedin_post(news_fetcher.get_titles(news))
 
 # 🌐 Starte Safari WebDriver
 driver = webdriver.Safari()
