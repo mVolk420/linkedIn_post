@@ -8,7 +8,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=api_key)
 
-def create_linkedin_post(news_list) -> str:
+def generate_post(news_list) -> str:
     prompt = f"""
     Erstelle einen hochwertigen LinkedIn-Beitrag auf Deutsch, Hier sind aktuelle Nachrichtenartikel-Titel zum Thema IT:
 
