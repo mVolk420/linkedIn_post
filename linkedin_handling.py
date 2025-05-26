@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import random
 
 class LinkedInHandler:
     def __init__(self):
@@ -40,7 +41,7 @@ class LinkedInHandler:
         )
         # 📝 Beitragstext eingeben
         text_area.send_keys(post_text)
-        time.sleep(1)
+        time.sleep(random.uniform(0.3,1.6) )
 
         # ✅ „Posten“-Button suchen & klicken
         post_button_final = WebDriverWait(self.driver, 10).until(
@@ -48,6 +49,41 @@ class LinkedInHandler:
         )
         self.driver.execute_script("arguments[0].click();", post_button_final)
         print("✅ Beitrag wurde erfolgreich gepostet.")
+
+    def connect_with_all(self):
+        # 🔁 Feed aufrufen (manchmal lädt die Seite intern doppelt)
+        self.driver.get("https://www.linkedin.com/in/me/")
+        WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//div[contains(., 'Profilsprache')]"))
+        )
+
+        # 🔍 Suche alle sichtbaren "Vernetzen"-Buttons und klicke sie nacheinander
+        time.sleep(random.uniform(0.3,1.6) )
+        # 🔄 Seite automatisch scrollen, um mehr "Vernetzen"-Buttons zu laden
+        buttons = self.driver.find_elements(By.XPATH, "//button[.//span[text()='Vernetzen']]")
+
+        if not buttons:
+            print("🔎 Keine 'Vernetzen'-Buttons gefunden.")
+            return
+        else:
+            print(f"🔎 {len(buttons)} 'Vernetzen'-Buttons gefunden.")
+
+        for idx, button in enumerate(buttons, 1):
+            try:
+                self.driver.execute_script("arguments[0].scrollIntoView(true);", button)
+                time.sleep(random.uniform(0.3,1.6) )
+                self.driver.execute_script("arguments[0].click();", button)
+                print(f"✅ Button {idx} gedrückt.")
+                time.sleep(random.uniform(0.3,1.6) )
+                # Optional: Bestätigen, falls ein Modal erscheint
+                send_button = self.driver.find_elements(By.XPATH, "//button[contains(text(), 'Senden')]")
+                if send_button:
+                    send_button[0].click()
+                    print(f"📨 Anfrage {idx} gesendet.")
+                    time.sleep(random.uniform(0.3,1.6) )
+            except Exception as e:
+                print(f"❌ Fehler beim Klicken von Button {idx}: {e}")
+
 
     def quit(self):
         self.driver.quit()
