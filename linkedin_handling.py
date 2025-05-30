@@ -29,7 +29,7 @@ class LinkedInHandler:
             EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'share-box-feed-entry__top-bar')]"))
         )
         # 🧩 Suche den „Beitrag beginnen“-Button über Textinhalt
-        post_button = WebDriverWait(self.driver, 15).until(
+        post_button = WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, "//button[contains(., 'Beitrag')]"))
         )
         # 🖱️ JavaScript-Click, um Blockaden zu umgehen
