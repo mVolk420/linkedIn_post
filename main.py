@@ -18,6 +18,7 @@ linkedin_handler = LinkedInHandler()
 
 linkedin_handler.log_in(EMAIL,PASSWORD)
 linkedin_handler.post(post_text)
+# 3 - 6 mal wiederholen
 for i in range (1,random.randint(3,6)):
     linkedin_handler.connect_with_all()
     time.sleep(random.uniform(0.3,1.6) )
