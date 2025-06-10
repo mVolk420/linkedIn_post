@@ -50,40 +50,45 @@ class LinkedInHandler:
         self.driver.execute_script("arguments[0].click();", post_button_final)
         print("✅ Beitrag wurde erfolgreich gepostet.")
 
-    def connect_with_all(self):
+    def connect_with_all(self) -> int:
+        clicked_count = 0
+
         # 🔁 Feed aufrufen (manchmal lädt die Seite intern doppelt)
         self.driver.get("https://www.linkedin.com/in/me/")
         WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, "//div[contains(., 'Profilsprache')]"))
         )
 
-        # 🔍 Suche alle sichtbaren "Vernetzen"-Buttons und klicke sie nacheinander
-        time.sleep(random.uniform(0.3,1.6) )
-        # 🔄 Seite automatisch scrollen, um mehr "Vernetzen"-Buttons zu laden
+        time.sleep(random.uniform(0.3, 1.6))
+
+        # 🔍 Suche alle sichtbaren "Vernetzen"-Buttons
         buttons = self.driver.find_elements(By.XPATH, "//button[.//span[text()='Vernetzen']]")
 
         if not buttons:
             print("🔎 Keine 'Vernetzen'-Buttons gefunden.")
-            return
+            return 0
         else:
             print(f"🔎 {len(buttons)} 'Vernetzen'-Buttons gefunden.")
 
         for idx, button in enumerate(buttons, 1):
             try:
                 self.driver.execute_script("arguments[0].scrollIntoView(true);", button)
-                time.sleep(random.uniform(0.3,1.6) )
+                time.sleep(random.uniform(0.3, 1.6))
                 self.driver.execute_script("arguments[0].click();", button)
                 print(f"✅ Button {idx} gedrückt.")
-                time.sleep(random.uniform(0.3,1.6) )
+                clicked_count += 1
+                time.sleep(random.uniform(0.3, 1.6))
+
                 # Optional: Bestätigen, falls ein Modal erscheint
                 send_button = self.driver.find_elements(By.XPATH, "//button[contains(text(), 'Senden')]")
                 if send_button:
                     send_button[0].click()
                     print(f"📨 Anfrage {idx} gesendet.")
-                    time.sleep(random.uniform(0.3,1.6) )
+                    time.sleep(random.uniform(0.3, 1.6))
             except Exception as e:
                 print(f"❌ Fehler beim Klicken von Button {idx}: {e}")
 
+        return clicked_count
 
     def quit(self):
         self.driver.quit()
