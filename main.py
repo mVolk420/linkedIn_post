@@ -20,7 +20,7 @@ linkedin_handler.log_in(EMAIL,PASSWORD)
 linkedin_handler.post(post_text)
 
 buttons_clicked = 0
-while buttons_clicked < 100 :
+while buttons_clicked < 99 :
     buttons_clicked += linkedin_handler.connect_with_all()
     time.sleep(random.uniform(0.3,1.6) )
 linkedin_handler.quit()
