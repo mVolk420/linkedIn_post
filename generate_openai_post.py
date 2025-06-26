@@ -23,12 +23,11 @@ def generate_post(news_list) -> str:
     - sachlich-professionell, aber persönlich geschrieben sein
     - 4 - 5 Absätze lang sein
     - auf Emojis und Hashtags verzichten (außer sie sind sinnvoll und dezent)
-
     Antworte nur mit dem fertigen Beitragstext, ohne Vorbemerkung oder Erklärung.
     """
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # für alle verfügbar
+        model="gpt-4",  
         messages=[
             {"role": "system", "content": "Du bist ein professioneller LinkedIn-Texter, der kurze, anregende Beiträge für ein englischsprachiges Fachpublikum im Bereich IT verfasst. Du kennst die gängigen Formate, Tonalität und Plattform-Erwartungen."},
             {"role": "user", "content": prompt}
