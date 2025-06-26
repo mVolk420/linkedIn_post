@@ -36,12 +36,15 @@ class LinkedInHandler:
         self.driver.execute_script("arguments[0].click();", post_button)
 
         # ⏳ Warte auf das Textfeld
-        text_area = WebDriverWait(self.driver, 10).until(
+        text_area = WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.CLASS_NAME, "ql-editor"))
         )
         # 📝 Beitragstext eingeben
-        text_area.send_keys(post_text)
-        time.sleep(random.uniform(0.3,1.6) )
+        lines = post_text.split('\n')
+        for line in lines:
+            text_area.send_keys(line)
+            text_area.send_keys(Keys.SHIFT, Keys.ENTER)  # SHIFT+ENTER für neuen Absatz (oft nötig bei JS-Feldern)
+        time.sleep(random.uniform(7.0,8.0) )
 
         # ✅ „Posten“-Button suchen & klicken
         post_button_final = WebDriverWait(self.driver, 10).until(

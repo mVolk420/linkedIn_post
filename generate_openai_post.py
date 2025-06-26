@@ -8,21 +8,21 @@ api_key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=api_key)
 
-def generate_post(news_list) -> str:
+def generate_post(news_title) -> str:
     prompt = f"""
-    Erstelle einen hochwertigen LinkedIn-Beitrag auf Englisch, Hier sind aktuelle Nachrichtenartikel-Titel zum Thema IT:
+    Erstelle einen hochwertigen LinkedIn-Beitrag auf Englisch, Hier ist ein aktueller Nachrichtenartikel-Titel zum Thema IT:
 
-    Titel: {news_list}
+    Titel: {news_title}
 
-    Suche dir den deiner Meinung nach den wichtigsten raus und erstelle ein Beitrag. Der Beitrag richtet sich an ein englischsprachiges, beruflich interessiertes LinkedIn-Publikum Dabei sollen News zu Aktienbewertungen ignoriert werden.
     Er soll:
 
     - mit einem aufmerksamkeitsstarken Satz beginnen
     - den Kern der Nachricht prägnant und anregend zusammenfassen
     - mit einer Frage oder Meinung abschließen
     - sachlich-professionell, aber persönlich geschrieben sein
-    - 4 - 5 Absätze lang sein
-    - auf Emojis und Hashtags verzichten (außer sie sind sinnvoll und dezent)
+    - 2 Absätze lang sein
+    - gerne mit sinnvollen Emojis
+    - auf Hashtags verzichten
     Antworte nur mit dem fertigen Beitragstext, ohne Vorbemerkung oder Erklärung.
     """
 

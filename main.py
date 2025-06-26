@@ -13,7 +13,9 @@ EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 
 news = news_fetcher.fetch_news()
-post_text = generate_openai_post.generate_post(news_fetcher.get_titles(news))
+link = news_fetcher.get_link(news)
+post_text = generate_openai_post.generate_post(news.title)
+post_text += "\n" + link
 linkedin_handler = LinkedInHandler()
 
 linkedin_handler.log_in(EMAIL,PASSWORD)

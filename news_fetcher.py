@@ -1,3 +1,9 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 import feedparser
 import urllib.request
 import random
@@ -21,8 +27,7 @@ TOPICS = [
     "DevOps"
 ]
 
-def fetch_news(topics=TOPICS, max_articles=5):
-    all_entries = []
+def fetch_news(topics=TOPICS):
     headers = {'User-Agent': 'Mozilla/5.0'}  # Trick: echter Browser-Agent
 
     topic = topics[random.randint(0, len(topics) -1)]
@@ -38,13 +43,22 @@ def fetch_news(topics=TOPICS, max_articles=5):
     feed = feedparser.parse(feed_content)
 
     if feed.entries:
-        print(f"✅ {len(feed.entries[:max_articles])} Artikel gefunden")
-        all_entries.extend(feed.entries[:max_articles])
+        print(f"✅ Artikel gefunden")
+        entrie = feed.entries[0]
+        return entrie
     else:
-        print(f"⚠️ Keine Artikel gefunden für Thema: {topic}")
+        print(f"⚠️ Keine Artikel gefunden für Thema: {topic}") 
 
-    return all_entries
+def get_link(news_entrie):
+    driver = webdriver.Safari()
+    driver.get(news_entrie.link)
+    cookie_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(., 'Alle')]"))
+    )
+    driver.execute_script("arguments[0].click();", cookie_button)
+    time.sleep(2)
+    final_url = driver.current_url
 
-# Funktion 2: Nur Titel extrahieren
-def get_titles(news_entries):
-    return [entry.title for entry in news_entries]
+    print("Finale URL:", final_url)
+    driver.quit()
+    return final_url
